@@ -4,16 +4,18 @@
 	<title>JB Slider</title>
 
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script type="text/javascript" src="jquery.jbslider.js"></script>
+	<script type="text/javascript" src="jquery.jbslider.min.js"></script>
 	
 	<script type="text/javascript">
 		
 		$(document).ready(function () {
 			
 			$('.carousel').jbslider({
+				jbSliderWrapper: 'jbSliderWrapper-test',
 				width: 500,
 				height: 300,
-				pagination: true				
+				pagination: true,
+				autoPlayTime: 2000
 			});
 			
 		});

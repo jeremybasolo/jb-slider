@@ -8,7 +8,7 @@
 			
 			var container = $(this);	
 			var nbElem = $('li', container).length;
-			container.wrap('<div id="' + opts.id + '" />');    		
+			container.wrap('<div id="' + opts.id + '" class="carousel" />');    		
     		var wrapper = $('#' + opts.id);
     		var currentPosition = 0;
     		    		
@@ -22,43 +22,47 @@
     		$('li', container).css('margin', 0);
 			wrapper.css('width', opts.width);
 			wrapper.css('overflow', 'hidden');
+    		$('li:eq(0)', container).addClass('current');
     		
     		wrapper.append('<nav class="controls"><a href="#" class="previous">Previous</a><a href="#" class="next">Next</a></nav>');
     		
-    		var movePane = function(position) {
+    		var movePane = function(position, iframeReset) {
     			var marginLeft = -(position * opts.width);
 				var oldPosition = currentPosition;
     			container.animate({
     			    marginLeft: marginLeft
 	    		}, opts.speed, function() {
-	    			$('li:eq(' + oldPosition + ') iframe', container).each(function() {
-				 		$(this).attr('src', $(this).attr('src'));	
-					});
+	    			if(iframeReset) {
+	    				$('li:eq(' + oldPosition + ') iframe', container).each(function() { $(this).attr('src', $(this).attr('src')); });
+	    			}
 	    		});
     			currentPosition = position;
     			$('.pagination li', wrapper).removeClass('current');
     			$('.pagination li:eq(' + currentPosition + ')', wrapper).addClass('current');
-    			$('li:eq(' + currentPosition + ') iframe', container).show();
+    			$('li', container).removeClass('current');
+    			$('li:eq(' + currentPosition + ')', container).addClass('current');
     		};
     		
     		var nextClick = function() {
     			$('.next', wrapper).click(function() {
-    				var position = currentPosition + 1;
+    				var position = $('li.current', container).index() + 1;
     				if(position == nbElem) {
     					position = 0;
     				}
-    				movePane(position);
+    				movePane(position, true);
+    				if(opts.autoPlayTime > 0) { mouseOver = true; }
     				return false;
     			});
     		};
     		
     		var previousClick = function() {
     			$('.previous', wrapper).click(function() {
-    				var position = currentPosition - 1;
+    				var position = $('li.current', container).index() - 1;
     				if(position == -1) {
     					position = nbElem - 1;
     				}
-    				movePane(position);
+    				movePane(position, true);
+    				if(opts.autoPlayTime > 0) { mouseOver = true; }
     				return false;
     			});
     		};
@@ -76,13 +80,31 @@
     			$('.pagination li:eq(' + currentPosition + ')', wrapper).addClass('current');
     			var paginationClick = function() {
     				$('.pagination li a', wrapper).click(function() {
-    					movePane($(this).data('position'));
+    					movePane($(this).data('position'), true);
+    					if(opts.autoPlayTime > 0) { mouseOver = true; }
     					return false;
     				});
     			};
     			paginationClick();
     		}
     		
+    		if(opts.autoPlayTime > 0) {
+    			var mouseOver = false;
+    			setInterval(function() {
+    				if(mouseOver == false) {
+    					currentPosition = currentPosition + 1;
+    					if(currentPosition >= nbElem) {
+    						currentPosition = 0;
+    					}
+    					movePane(currentPosition, false);
+    				}
+    			}, opts.autoPlayTime);    			
+    			container.mouseenter(function() {
+    				mouseOver = true;
+    			});
+    			
+    		}
+    		    		
     	});
     }
     
@@ -92,8 +114,8 @@
   		width: 750,
   		height: 300,
   		speed: 500,
-  		pagination: false
+  		pagination: false,
+  		autoPlayTime: 0
   	}
 
-    	
 })(jQuery);
