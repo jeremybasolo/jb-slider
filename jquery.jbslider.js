@@ -37,8 +37,10 @@
 	    			}
 	    		});
     			currentPosition = position;
-    			$('.pagination li', wrapper).removeClass('current');
-    			$('.pagination li:eq(' + currentPosition + ')', wrapper).addClass('current');
+    			if(opts.pagination == true) {
+ 		   			$('.pagination li', wrapper).removeClass('current');
+    				$('.pagination li:eq(' + currentPosition + ')', wrapper).addClass('current');
+    			}
     			$('li', container).removeClass('current');
     			$('li:eq(' + currentPosition + ')', container).addClass('current');
     		};
@@ -69,6 +71,36 @@
 
     		nextClick();
     		previousClick();
+    		
+    		if(opts.arrowControl == true) {
+    			function handleArrowKeys(evt) {
+				    evt = (evt) ? evt : ((window.event) ? event : null);
+				    if (evt) {
+				    	var position = $('li.current', container).index();
+				        var max = $('li', container).length;
+				        switch (evt.keyCode) {
+				            case 37:
+				                if(position == 0) {
+				                	movePane(max - 1, true);
+				                } else {
+				                	movePane(position - 1, true);
+				                }
+				                if(opts.autoPlayTime > 0) { mouseOver = true; }
+				                break;    
+				            case 39:
+				                if((position + 1) >= max) {
+				                	movePane(0);	
+				                } else {
+				                	movePane(position + 1, true);
+				                }
+				                if(opts.autoPlayTime > 0) { mouseOver = true; }
+				                break;    
+				         }
+				    }
+				}
+				document.onkeyup = handleArrowKeys;
+			}
+			
     		
     		if(opts.pagination == true) {
     			var htmlPagination = '<ul class="pagination">';
@@ -115,6 +147,7 @@
   		height: 300,
   		speed: 500,
   		pagination: false,
+  		arrowControl: true,
   		autoPlayTime: 0
   	}
 
