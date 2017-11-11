@@ -2,7 +2,7 @@ JB Slider
 
 --------------------------------------------------
 
-Demo: http://www.jeremybasolo.com/jbslider/
+Demo: https://jeremybasolo.com/demos/jbslider/
 
 Tested on:
 Firefox, Chrome, Safari, IE7, IE8, IE9
