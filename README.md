@@ -1,6 +1,6 @@
 # JB Slider
 
-**Demo:** https://jeremybasolo.com/demos/jbslider/
+**Demo:** https://jeremybasolo.com/demos/jbslider/index.html
 
 Tested on:
 Firefox, Chrome, Safari, IE7, IE8, IE9
