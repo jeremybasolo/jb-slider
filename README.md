@@ -1,13 +1,9 @@
-JB Slider
+## JB Slider
 
---------------------------------------------------
-
-Demo: https://jeremybasolo.com/demos/jbslider/
+# Demo: https://jeremybasolo.com/demos/jbslider/
 
 Tested on:
 Firefox, Chrome, Safari, IE7, IE8, IE9
-
---------------------------------------------------
 
 A sample source code is available in index.html
 
